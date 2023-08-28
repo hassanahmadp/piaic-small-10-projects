@@ -1,7 +1,8 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Inter, League_Spartan } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
+const league_spartan = League_Spartan({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'PIAIC',
@@ -15,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={league_spartan.className}>{children}</body>
     </html>
   )
 }
