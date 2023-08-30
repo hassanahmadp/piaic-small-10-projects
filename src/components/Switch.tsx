@@ -37,6 +37,7 @@ export function Switch({ theme, setTheme }: Props) {
             theme === 2 && "bg-theme2_bg_keypad",
             theme === 3 && "bg-theme3_bg_keypad_screen"
           )}
+          suppressHydrationWarning
         >
           <div
             className={twMerge(

@@ -13,7 +13,9 @@ export function useBrowserStorage<T>(
     if(typeof window !== "undefined") {
       const storageItem =  storageType === "local" ? localStorage.getItem(key) : sessionStorage.getItem(key)
       if (!storageItem) return value
-      return JSON.parse(storageItem)
+      const data = JSON.parse(storageItem)
+      debugger
+      return data
     } else return undefined
   })
 
