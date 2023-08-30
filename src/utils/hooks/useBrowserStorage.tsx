@@ -9,7 +9,7 @@ export function useBrowserStorage<T>(
   storageType: "local" | "session" = "local",
 ) {
 
-  const [state, setState] = useState<T | undefined>(() => {
+  const [state, setState] = useState<T>(() => {
     if(typeof window !== "undefined") {
       const storageItem =  storageType === "local" ? localStorage.getItem(key) : sessionStorage.getItem(key)
       if (!storageItem) return value
@@ -26,5 +26,5 @@ export function useBrowserStorage<T>(
     }
   }, [state])
 
-  return [state, setState]
+  return [state, setState] as [T, React.Dispatch<React.SetStateAction<T>>]
 }
