@@ -31,8 +31,14 @@ export default function Home() {
           </h1>
           <Switch theme={theme} setTheme={setTheme} />
         </div>
-        <div className={twMerge("w-full p-5 bg-theme1_bg_screen rounded-lg")}>
-          <h3 className="text-right">43</h3>
+        <div
+          className={twMerge(
+            "w-full p-5 bg-theme1_bg_screen rounded-lg",
+            theme === 2 && "bg-theme2_bg_screen",
+            theme === 3 && "bg-theme3_bg_keypad_screen",
+          )}
+        >
+          <h3 className="text-right text-6xl">43</h3>
         </div>
       </div>
     </main>
