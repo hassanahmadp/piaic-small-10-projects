@@ -2,76 +2,39 @@
 
 import { Switch, Key } from "@/components"
 import { useBrowserStorage } from "@/utils"
+import { useState } from "react"
 import { twMerge } from "tailwind-merge"
 
 export const dynamic = "force-dynamic"
 
 export default function Home() {
   const [theme, setTheme] = useBrowserStorage<themeType>("theme", 1)
+  const [result, setResult] = useState<string>("")
 
   const formatNumber = (val: number = 0): string => {
     if (!val || typeof val !== "number") return "0"
     return new Intl.NumberFormat("en-US").format(val)
   }
 
-  const keys: CalculatorKey[] = [
-    {
-      value: "7",
-    },
-    {
-      value: "8",
-    },
-    {
-      value: "9",
-    },
-    {
-      value: "del",
-    },
-
-    {
-      value: "4",
-    },
-    {
-      value: "5",
-    },
-    {
-      value: "6",
-    },
-    {
-      value: "+",
-    },
-
-    {
-      value: "1",
-    },
-    {
-      value: "2",
-    },
-    {
-      value: "3",
-    },
-    {
-      value: "-",
-    },
-
-    {
-      value: ".",
-    },
-    {
-      value: "0",
-    },
-    {
-      value: "/",
-    },
-    {
-      value: "x",
-    },
-    {
-      value: "reset",
-    },
-    {
-      value: "=",
-    },
+  const keys: string[] = [
+    "7",
+    "8",
+    "9",
+    "del",
+    "4",
+    "5",
+    "6",
+    "+",
+    "1",
+    "2",
+    "3",
+    "-",
+    ".",
+    "0",
+    "/",
+    "x",
+    "reset",
+    "=",
   ]
 
   return (
@@ -107,7 +70,7 @@ export default function Home() {
           suppressHydrationWarning
         >
           {keys.map(key => (
-            <Key theme={theme} {...key} key={key.value}/>
+            <Key theme={theme} value={key} key={key} />
           ))}
         </div>
       </div>
