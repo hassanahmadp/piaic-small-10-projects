@@ -14,7 +14,6 @@ export function useBrowserStorage<T>(
       const storageItem =  storageType === "local" ? localStorage.getItem(key) : sessionStorage.getItem(key)
       if (!storageItem) return value
       const data = JSON.parse(storageItem)
-      debugger
       return data
     } else return undefined
   })

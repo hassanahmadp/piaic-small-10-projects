@@ -2,7 +2,7 @@
 
 import { Switch, Key } from "@/components"
 import { useBrowserStorage } from "@/utils"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { twMerge } from "tailwind-merge"
 
 export const dynamic = "force-dynamic"
@@ -10,11 +10,30 @@ export const dynamic = "force-dynamic"
 export default function Home() {
   const [theme, setTheme] = useBrowserStorage<themeType>("theme", 1)
   const [result, setResult] = useState<string>("")
+  const [operator, setOperator] = useState<string>("")
+  const [stageValue, setStageValue] = useState<string>("")
 
   const formatNumber = (val: number = 0): string => {
     if (!val || typeof val !== "number") return "0"
     return new Intl.NumberFormat("en-US").format(val)
   }
+
+  const numbers: string[] = useMemo(() => ["1","2","3","4","5","6","7","8","9","0"], [])
+  const operators: string[] = useMemo(() => ["+","-","x","/","="], [])
+
+  const handleKeyPress = (key: string) => {
+    if(numbers.includes(key)) {
+      setStageValue(prev => prev+key)
+    } else if(operators.includes(key)) {
+      setResult(prev => {
+        let res = +prev + +stageValue
+        return res.toString()
+      })
+      setOperator(key)
+      setStageValue("0")
+    }
+  }
+  
 
   const keys: string[] = [
     "7",
@@ -36,6 +55,8 @@ export default function Home() {
     "reset",
     "=",
   ]
+
+  const screenTop = formatNumber(+result) + operator
 
   return (
     <main
@@ -59,7 +80,8 @@ export default function Home() {
           )}
           suppressHydrationWarning
         >
-          <h3 className="text-right text-6xl font-bold">{formatNumber(90079601)}</h3>
+          <h3 className="text-right text-lg font-bold opacity-60">{screenTop}</h3>
+          <h3 className="text-right text-6xl font-bold">{formatNumber(+stageValue)}</h3>
         </div>
         <div
           className={twMerge(
@@ -70,7 +92,7 @@ export default function Home() {
           suppressHydrationWarning
         >
           {keys.map(key => (
-            <Key theme={theme} value={key} key={key} />
+            <Key theme={theme} value={key} handleKeyPress={handleKeyPress} key={key} />
           ))}
         </div>
       </div>
