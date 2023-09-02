@@ -2,24 +2,22 @@
 
 import React, { useEffect, useState } from "react"
 
-
 export function useBrowserStorage<T>(
   key: string,
   value: T,
   storageType: "local" | "session" = "local",
 ) {
-
-  const [state, setState] = useState<T>(() => {
-    if(typeof window !== "undefined") {
-      const storageItem =  storageType === "local" ? localStorage.getItem(key) : sessionStorage.getItem(key)
-      if (!storageItem) return value
-      const data = JSON.parse(storageItem)
-      return data
-    } else return undefined
-  })
+  const [state, setState] = useState<T | null>(null)
 
   useEffect(() => {
-    if (typeof window === "undefined") return
+    const storageItem =
+      storageType === "local" ? localStorage.getItem(key) : sessionStorage.getItem(key)
+    if (!storageItem) {
+      setState(value)
+    } else setState(JSON.parse(storageItem) as T)
+  }, [])
+
+  useEffect(() => {
     if (storageType === "local") {
       localStorage.setItem(key, JSON.stringify(state))
     } else {
