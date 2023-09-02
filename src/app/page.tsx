@@ -2,7 +2,7 @@
 
 import { Switch, Key } from "@/components"
 import { useBrowserStorage } from "@/utils"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { twMerge } from "tailwind-merge"
 
 export const dynamic = "force-dynamic"
@@ -18,22 +18,65 @@ export default function Home() {
     return new Intl.NumberFormat("en-US").format(val)
   }
 
-  const numbers: string[] = useMemo(() => ["1","2","3","4","5","6","7","8","9","0"], [])
-  const operators: string[] = useMemo(() => ["+","-","x","/","="], [])
+  const numbers: string[] = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"], [])
+  const operators: string[] = useMemo(() => ["+", "-", "x", "/", "="], [])
+  const functions: string[] = useMemo(() => ["del", "reset"], [])
 
   const handleKeyPress = (key: string) => {
-    if(numbers.includes(key)) {
-      setStageValue(prev => prev+key)
-    } else if(operators.includes(key)) {
+    if (numbers.includes(key)) {
+      setStageValue(prev => prev + key)
+    } else if (operators.includes(key)) {
+      if (key === "=") {
+        if (result === "") return
+        else {
+          setStageValue(prev => {
+            let res = +result
+
+            if (operator === "+") res += +stageValue
+            else if (operator === "-") res -= +stageValue
+            else if (operator === "x") res *= +stageValue
+            else if (operator === "/") {
+              res = res / +stageValue
+            } else if (operator === "") {
+              res = +stageValue
+            }
+
+            return res.toString()
+          })
+          setResult("")
+          setOperator("")
+          return
+        }
+      }
       setResult(prev => {
-        let res = +prev + +stageValue
+        let res = +prev
+        if (operator === "+") res += +stageValue
+        else if (operator === "-") res -= +stageValue
+        else if (operator === "x") res *= +stageValue
+        else if (operator === "/") {
+          res = res / +stageValue
+        } else if (operator === "") {
+          res = +stageValue
+        }
+
         return res.toString()
       })
       setOperator(key)
       setStageValue("0")
+    } else if (functions.includes(key)) {
+      if (key === "del") {
+        setStageValue((prev: string) => {
+          let value = prev.split("")
+          value.pop()
+          return value.join("")
+        })
+      } else if (key === "reset") {
+        setStageValue("")
+        setOperator("")
+        setResult("0")
+      }
     }
   }
-  
 
   const keys: string[] = [
     "7",
@@ -65,7 +108,6 @@ export default function Home() {
         theme === 2 && "bg-theme2_bg_main text-theme2_text_dark",
         theme === 3 && "bg-theme3_bg_main text-theme3_text_dark",
       )}
-      suppressHydrationWarning
     >
       <div className="w-full max-w-[580px] gap-8 flex flex-col mx-auto px-5 py-8">
         <div className="flex justify-between items-end">
@@ -78,10 +120,11 @@ export default function Home() {
             theme === 2 && "bg-theme2_bg_screen",
             theme === 3 && "bg-theme3_bg_keypad_screen",
           )}
-          suppressHydrationWarning
         >
           <h3 className="text-right text-lg font-bold opacity-60">{screenTop}</h3>
-          <h3 className="text-right text-6xl font-bold">{formatNumber(+stageValue)}</h3>
+          <h3 className="text-right text-6xl font-bold overflow-ellipsis overflow-hidden">
+            {formatNumber(+stageValue)}
+          </h3>
         </div>
         <div
           className={twMerge(
@@ -89,7 +132,6 @@ export default function Home() {
             theme === 2 && "bg-theme2_bg_keypad",
             theme === 3 && "bg-theme3_bg_keypad_screen",
           )}
-          suppressHydrationWarning
         >
           {keys.map(key => (
             <Key theme={theme} value={key} handleKeyPress={handleKeyPress} key={key} />
