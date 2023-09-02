@@ -18,7 +18,7 @@ export default function Home() {
     return new Intl.NumberFormat("en-US").format(val)
   }
 
-  const numbers: string[] = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"], [])
+  const numbers: string[] = useMemo(() => ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."], [])
   const operators: string[] = useMemo(() => ["+", "-", "x", "/", "="], [])
   const functions: string[] = useMemo(() => ["del", "reset"], [])
 
@@ -100,6 +100,7 @@ export default function Home() {
   ]
 
   const screenTop = formatNumber(+result) + operator
+  const screenBottom = formatNumber(+stageValue)
 
   return (
     <main
@@ -123,7 +124,7 @@ export default function Home() {
         >
           <h3 className="text-right text-lg font-bold opacity-60">{screenTop}</h3>
           <h3 className="text-right text-6xl font-bold overflow-ellipsis overflow-hidden">
-            {formatNumber(+stageValue)}
+            {screenBottom}{!screenBottom.includes('.') &&'.'}
           </h3>
         </div>
         <div
