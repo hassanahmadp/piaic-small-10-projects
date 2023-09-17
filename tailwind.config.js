@@ -13,6 +13,21 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    colors: {
+      light_v_gray: 'hsl(0, 0%, 98%)',
+      light_v_grayish_blue: 'hsl(236, 33%, 92%)',
+      light_grayish_blue: 'hsl(233, 11%, 84%)',
+      light_d_grayish_blue: 'hsl(236, 9%, 61%)',
+      light_vd_grayish_blue: 'hsl(235, 19%, 35%)',
+      dark_v_blue: 'hsl(235, 21%, 11%)',
+      dark_v_desaturate_blue: 'hsl(235, 24%, 19%)',
+      dark_l_grayish_blue: 'hsl(234, 39%, 85%)',
+      dark_l_grayish_blue_hover: 'hsl(236, 33%, 92%)',
+      dark_grayish_blue: 'hsl(234, 11%, 52%)',
+      dark_v_grayish_blue: 'hsl(233, 14%, 35%)',
+      dark_vv_grayish_blue: 'hsl(237, 14%, 26%)',
+
+    }
   },
   plugins: [],
 }
