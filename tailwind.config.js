@@ -14,6 +14,8 @@ module.exports = {
       },
     },
     colors: {
+      check_background_to: 'hsl(280, 87%, 65%)',
+      check_background_from: 'hsl(192, 100%, 67%)',
       light_v_gray: 'hsl(0, 0%, 98%)',
       light_v_grayish_blue: 'hsl(236, 33%, 92%)',
       light_grayish_blue: 'hsl(233, 11%, 84%)',
@@ -26,7 +28,7 @@ module.exports = {
       dark_grayish_blue: 'hsl(234, 11%, 52%)',
       dark_v_grayish_blue: 'hsl(233, 14%, 35%)',
       dark_vv_grayish_blue: 'hsl(237, 14%, 26%)',
-
+      transparent: 'transparent',
     }
   },
   plugins: [],
